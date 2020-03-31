@@ -1,0 +1,81 @@
+<h4 class="mt-4">Create DataDog Synthetic Test</h4>
+
+<div class="card-body">
+    <form method="post" id="datadog" action="#">
+        {% csrf_token %}
+        <div class="form-group col-md-6">
+            <label class="mb-1" for="inputFirstName">Test Name</label>
+            <input class="form-control" id="inputFirstName" type="text" placeholder="Enter test name" />
+        </div>
+        <div class="form-group col-md-6">
+            <label class="mb-1" for="inputTestDescription">Test Description</label>
+            <input class="form-control" id="inputTestDescription" type="text" placeholder="Enter test description" />
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputLocation">Location</label>
+            <select id="inputLocation" class="form-control">
+                <option value="Americas" selected>US</option>
+                <option value="Europe">EU</option>
+                <option value="Asia Pacific">Asia</option>
+                <option value="all">All</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputFrequency">Frequency (seconds)</label>
+            <select id="inputFrequency" class="form-control">
+                <option>60</option>
+                <option>300</option>
+                <option selected>900</option>
+                <option>1800</option>
+                <option>3600</option>
+                <option>21600</option>
+                <option>43200</option>
+                <option>86400</option>
+                <option>604800</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="mb-1" for="inputURL">Test Name</label>
+            <input class="form-control" id="inputURL" type="text" placeholder="Enter URL" />
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputMethod">Method (only GET available for now)</label>
+            <select id="inputMethod" class="form-control">
+                <option selected>GET</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-6 mt-4 mb-0">
+            <a id="datadogformsubmit" class="btn btn-primary btn-block" href="#">Create Test</a>
+        </div>
+    </form>
+
+    <div class="modal" id="myModalDataDogError" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body" id="modalDataDogError">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Return</button>
+            <button type="button" class="btn btn-primary start-over">Start Over</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="myModalDataDogSuccess" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body" id="modalDataDogSuccess">
+            <p>The Synthetic Test was created successfully!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+

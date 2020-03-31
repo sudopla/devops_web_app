@@ -1,0 +1,33 @@
+<h4 class="mt-4">Create New Django Project on Github</h4>
+
+<div class="card-body">
+    <form method="post" id="gitrepo" action="#">
+        {% csrf_token %}
+        <div class="form-group col-md-6">
+            <label class="mb-1" for="inputFirstName">Project Name</label>
+            <input class="form-control" id="inputFirstName" type="text" placeholder="Enter project name" />
+        </div>
+        <div class="form-group col-md-6">
+            <label class="mb-1" for="inputDescription">Project Description</label>
+            <input class="form-control" id="inputDescription" type="text" placeholder="Enter description for project" />
+        </div>
+
+        <div class="form-group col-md-6 mt-4 mb-0">
+            <a id="gitformsubmit" class="btn btn-primary btn-block" href="#">Create Project</a>
+        </div>
+    </form>
+
+    <div class="modal" id="myModalGihub" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body" id="modalGithub">
+            <p>Modal Text</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
