@@ -1,4 +1,8 @@
 version: 0.2
+env:
+  secrets-manager:
+    datadog_api_key : '{{resolve:secretsmanager:DataDogApiKey:SecretString:key}}'
+    datadog_app_key : '{{resolve:secretsmanager:DataDogAppKey:SecretString:key}}'
 phases:
   pre_build:
     commands:
