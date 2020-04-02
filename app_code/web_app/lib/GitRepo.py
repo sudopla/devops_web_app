@@ -2,12 +2,15 @@ import shutil
 from django.core import management
 from github import Github
 from git import Repo
+import os
 
 class GitRepo:
 
     def __init__(self):
         # Connect to Github account with token
-        self.token = ""
+        # Getting tokent from environment variable
+        git_token = os.environ.get('git_token')
+        self.token = git_token
         self.g = Github(self.token)
         self.u = self.g.get_user()
 
@@ -27,9 +30,11 @@ class GitRepo:
     # Create django project and push code to Github repository
     def push_django_project(self, repo_name, repo_url):
         # create temp django project
-        management.call_command('startproject', repo_name)
+        #remove '-' from name. django cannot name projects with '-'
+        r_name = repo_name.replace('-', '_')
+        management.call_command('startproject', r_name)
         # Init Git and push code to Github repository
-        local_repo = Repo.init(repo_name)
+        local_repo = Repo.init(r_name)
         git = local_repo.git
         git.add('.')
         git.commit('-m', 'initial commit')
@@ -37,7 +42,7 @@ class GitRepo:
         final_url = repo_url[:8] + self.token + '@' + repo_url[8:]
         git.push(final_url, 'master')
         # remove temp django project
-        shutil.rmtree(repo_name)
+        shutil.rmtree(r_name)
         return None
 
     # Get a list with the name of existing Github repositories

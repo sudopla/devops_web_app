@@ -1,11 +1,15 @@
 from datadog import initialize, api
+import os
 
 class DataDog:
 
     def __init__(self):
+        # Getting keys from environment variables
+        api_key = os.environ.get('datadog_api_key')
+        app_key = os.environ.get('datadog_app_key')
         options = {
-            'api_key': '',
-            'app_key': ''
+            'api_key': api_key,
+            'app_key': app_key
         }
         initialize(**options)
 
