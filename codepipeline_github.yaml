@@ -227,6 +227,7 @@ Resources:
                   - ecs:ListTasks
                   - ecs:RegisterTaskDefinition
                   - ecs:UpdateService
+                  - iam:PassRole
                 Resource: "*"
 
   #Cloudwath Event Role
