@@ -7,10 +7,10 @@ import os
 class GitRepo:
 
     def __init__(self):
-        # Connect to Github account with token 
-        # Getting tokent from environment variable
+        # Connect to Github account with token
+        # Getting token from environment variable
         git_token = os.environ.get('git_token')
-        self.token = git_token
+        self.token = git_token[10:-2]
         self.g = Github(self.token)
         self.u = self.g.get_user()
 

@@ -29,6 +29,15 @@ Parameters:
     Type: String
     Default: nginx
     Description: ECR IMAGE URI or Docker image for your container application
+  GitHubTokenARN:
+    Type: String
+    Description: Secret ARN for GitHub token
+  DataDogAppKeyARN:
+    Type: String
+    Description: Secret ARN for DataDog App
+  DataDogAPIKeyARN:
+    Type: String
+    Description: Secret ARN for DataDog API
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -43,6 +52,9 @@ Metadata:
           - ServiceName
           - ContainerPort
           - ContainerImage
+          - GitHubTokenARN
+          - DataDogAppKeyARN
+          - DataDogAPIKeyARN
 
 Resources:
   #ECS Cluster
@@ -75,6 +87,17 @@ Resources:
           #The list of port mapping for the container. For task definitions that use the awsvpc network mode, you should only specify the containerPort
           PortMappings:
             - ContainerPort: !Ref ContainerPort
+          Secrets:
+            - { Name: 'git_token', ValueFrom: !Ref GitHubTokenARN }
+            - { Name: 'datadog_app_key', ValueFrom: !Ref DataDogAppKeyARN }
+            - { Name: 'datadog_api_key', ValueFrom: !Ref DataDogAPIKeyARN }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-region: !Ref AWS::Region
+              awslogs-group: !Ref LogGroup
+              awslogs-stream-prefix: ecs
+
   #ECS Service
   Service:
     Type: AWS::ECS::Service
@@ -110,6 +133,12 @@ Resources:
           ContainerPort: !Ref ContainerPort
           TargetGroupArn: !Ref ECSTargetGroup
 
+  # Container logs
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "${AWS::StackName}"
+
   #ECS Task Execution Role
   ecsServiceRole:
     Type: AWS::IAM::Role
@@ -124,8 +153,22 @@ Resources:
                 - ecs-tasks.amazonaws.com
             Action:
               - sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Policies:
+        - PolicyName: ECSServicePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:CreateLogGroup
+                  - secretsmanager:GetSecretValue
+                Resource: "*"
 
   #Create VPC, Subnets and Security Groups
   VPC:

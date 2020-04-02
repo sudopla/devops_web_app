@@ -8,8 +8,8 @@ class DataDog:
         api_key = os.environ.get('datadog_api_key')
         app_key = os.environ.get('datadog_app_key')
         options = {
-            'api_key': api_key,
-            'app_key': app_key
+            'api_key': api_key[8:-2],
+            'app_key': app_key[8:-2]
         }
         initialize(**options)
 
