@@ -1,9 +1,9 @@
 version: 0.2
 env:
   secrets-manager:
-    datadog_api_key : DataDogApiKey:key
-    datadog_app_key : DataDogAppKey:key
-    git_token : MyGitHubSecret:token
+    DATADOG_API_KEY : DataDogApiKey:key
+    DATADOG_APP_KEY : DataDogAppKey:key
+    GIT_TOKEN : MyGitHubSecret:token
 phases:
   pre_build:
     commands:
@@ -12,12 +12,13 @@ phases:
     # Log into ECR registry
     - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
     - ECR_URI=$REPOSITORY_URI:latest
+    -
   build:
     commands:
     - echo Build started on `date`
     - echo Building the Docker image...
     # Build docker image
-    - docker build -t web_app:latest .
+    - docker build --build-arg git_token=$GIT_TOKEN --build-arg datadog_app_key=$DATADOG_APP_KEY --build-arg datadog_api_key=$DATADOG_API_KEY -t web_app:latest .
     # update the following line with the URI of your own ECR repository
     - docker tag web_app:latest $ECR_URI
   post_build:
