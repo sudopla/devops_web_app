@@ -172,6 +172,7 @@ Resources:
                   - ecr:InitiateLayerUpload
                   - ecr:UploadLayerPart
                   - ecr:CompleteLayerUpload
+                  - secretsmanager:GetSecretValue
                 Resource: "*"
               - Effect: Allow
                 Action:
