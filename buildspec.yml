@@ -1,8 +1,9 @@
 version: 0.2
 env:
   secrets-manager:
-    datadog_api_key : '{{resolve:secretsmanager:DataDogApiKey:SecretString:key}}'
-    datadog_app_key : '{{resolve:secretsmanager:DataDogAppKey:SecretString:key}}'
+    datadog_api_key : DataDogApiKey:key
+    datadog_app_key : DataDogAppKey:key
+    git_token : MyGitHubSecret:token
 phases:
   pre_build:
     commands:
