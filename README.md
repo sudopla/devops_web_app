@@ -78,7 +78,7 @@ You can automate the deployement of new releases using a CodePipeline define in 
 
 Every time that new code is pushed to the master branch of the repository, CodePipeline will start running automatically. First, CodeBuild creates the Docker image and push it to the ECR repository (these stpes are configured in the [buildspec.yml](buildspec.yml) file. Then, CodePipeline will update the ECS service with a copy of the existing task definition but using the new container image.  
 
-When you create the CloudFormation stack for this pipeline, enter the Github repository name and your account. 
+When you create the CloudFormation stack for this pipeline, enter the Github repository name and account. 
 
 <img src="img/screenshot_5.png" width="80%">
 
